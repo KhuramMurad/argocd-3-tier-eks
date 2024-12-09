@@ -1,0 +1,30 @@
+services:
+  backend:
+    build:
+      context: ./e-commerce-back-end
+    ports:
+      - "5000:3000"
+    environment:
+      - DB_URL=mongodb://database:27017/e-commerce
+    depends_on:
+      - database
+
+  frontend:
+    build:
+      context: ./e-commerce-front-end
+    ports:
+      - "3000:80"
+    environment:
+      - REACT_APP_API_URL=http://localhost:5000
+
+  database:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
+
